@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using StarWars.DataAccess.Interfaces;
 using StarWars.DataAccess.Model;
-using StarWars.Services.Interfaces;
+using StarWars.Services.Interfaces.Factories;
+using StarWars.Services.Interfaces.Services;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,24 +15,23 @@ namespace StarWars.Services.Services
 {
     public class CharactersService : ICharactersService
     {
-        private readonly ICharacterRepository _characterRepository;
-        private readonly IMapper _mapper;
+        private readonly IGetAllCharactersFactory _getAllCharactersFactory;
 
-        public CharactersService(
-            IMapper mapper,
-            ICharacterRepository characterRepository)
+        public CharactersService(IGetAllCharactersFactory getAllCharactersFactory)
         {
-            _characterRepository = characterRepository;
-            _mapper = mapper;
+            _getAllCharactersFactory = getAllCharactersFactory;
         }
 
-        public async Task<List<CharacterDTO>> GetAllCharacters()
+        public async Task<List<CharacterDTO>> GetAllCharactersAsync()
         {
-            List<Character> characters = await _characterRepository.GetAllAsync();
+            List<CharacterDTO> characters = await _getAllCharactersFactory.GetAllCharactersAsync();
 
-            List<CharacterDTO> mappedCharacters = _mapper.Map<List<CharacterDTO>>(characters);
+            return characters;
+        }
 
-            return mappedCharacters;
+        public Task<CharacterDTO> GetCharacterByIdAsync(int characterId)
+        {
+            return null;
         }
     }
 }

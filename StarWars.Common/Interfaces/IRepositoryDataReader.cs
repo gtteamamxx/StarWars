@@ -8,6 +8,8 @@ namespace StarWars.Common.Interfaces
 {
     public interface IRepositoryDataReader<T>
     {
-        Task<List<T>> GetAllAsync();
+        Task<T> FindAsync(int id, params Expression<Func<T, object>>[] navigationProperties);
+
+        Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] navigationProperties);
     }
 }

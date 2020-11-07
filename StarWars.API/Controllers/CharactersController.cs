@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StarWars.Services.Interfaces;
+using StarWars.Services.Interfaces.Services;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace StarWars.API.Controllers
         [ProducesResponseType(typeof(List<CharacterDTO>), 200)]
         public async Task<IActionResult> GetAllCharacters()
         {
-            List<CharacterDTO> characters = await _charactersService.GetAllCharacters();
+            List<CharacterDTO> characters = await _charactersService.GetAllCharactersAsync();
 
             return Ok(characters);
         }

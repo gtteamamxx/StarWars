@@ -5,18 +5,19 @@ using StarWars.DataAccess.Interfaces;
 using StarWars.DataAccess.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace StarWars.DataAccess.Infrastructure.Repositories
 {
-    public class CharacterRepository : RepositoryBase<Character>, ICharacterRepository
+    public class CharacterEpisodeRepository : RepositoryBase<CharacterEpisode>, ICharacterEpisodeRepository
     {
-        public CharacterRepository(IDatabaseContext context) : base(context)
+        public CharacterEpisodeRepository(IDatabaseContext context) : base(context)
         {
         }
 
-        public override Expression<Func<Character, bool>> GetFilterExpression(int id) => x => x.Id == id;
+        public override Expression<Func<CharacterEpisode, bool>> GetFilterExpression(int id) => x => x.Id == id;
     }
 }

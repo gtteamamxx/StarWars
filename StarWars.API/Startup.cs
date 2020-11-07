@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +13,7 @@ using Scrutor;
 using StarWars.Common.Interfaces;
 using StarWars.DataAccess.Infrastructure;
 using StarWars.DataAccess.Interfaces;
-using StarWars.Services.Interfaces;
+using StarWars.Services.Interfaces.Services;
 using StarWars.Services.Mapper;
 
 namespace StarWars.API
