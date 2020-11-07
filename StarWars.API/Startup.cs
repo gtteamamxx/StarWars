@@ -22,6 +22,7 @@ namespace StarWars.API
 
             app.UseRouting();
 
+            app.UseCors("AllowAll");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -29,9 +30,7 @@ namespace StarWars.API
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseEndpoints(endpoints =>
-            {
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         public void ConfigureServices(IServiceCollection services)
