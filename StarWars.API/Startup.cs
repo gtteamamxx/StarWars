@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StarWars.Services.Interfaces;
 
 namespace StarWars.API
 {
@@ -47,6 +48,12 @@ namespace StarWars.API
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()));
+
+            services.Scan(scan =>
+                scan.FromAssemblyOf<ICharactersService>()
+                    .AddClasses()
+                    .AsMatchingInterface()
+            );
         }
     }
 }

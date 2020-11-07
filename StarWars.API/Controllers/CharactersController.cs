@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StarWars.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,13 @@ namespace StarWars.API.Controllers
     [ApiController]
     public class CharactersController : ControllerBase
     {
+        private readonly ICharactersService _charactersService;
+
+        public CharactersController(ICharactersService charactersService)
+        {
+            _charactersService = charactersService;
+        }
+
         [HttpPost]
         public IActionResult AddNewCharacter([FromBody] object model)
         {
