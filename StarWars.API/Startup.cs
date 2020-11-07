@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +11,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Scrutor;
+using StarWars.Common.Interfaces;
 using StarWars.DataAccess.Infrastructure;
+using StarWars.DataAccess.Interfaces;
 using StarWars.Services.Interfaces;
+using StarWars.Services.Mapper;
 
 namespace StarWars.API
 {
@@ -66,10 +71,31 @@ namespace StarWars.API
                     .AllowAnyMethod()
                     .AllowAnyHeader()));
 
+            services.AddScoped<IDatabaseContext, StarWarsContext>();
+
+            services.AddSingleton<IMapper>(y =>
+            {
+                var mapper = new MapperConfiguration(x =>
+                {
+                    x.AddProfile<StarWarsServiceMapperProfile>();
+                });
+
+                return mapper.CreateMapper();
+            });
+
             services.Scan(scan =>
                 scan.FromAssemblyOf<ICharactersService>()
                     .AddClasses()
                     .AsMatchingInterface()
+                    .WithScopedLifetime()
+            );
+
+            services.Scan(scan =>
+                scan.FromAssemblyOf<ICharacterRepository>()
+                    .AddClasses()
+                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime()
             );
         }
     }
