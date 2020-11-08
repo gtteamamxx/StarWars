@@ -26,7 +26,7 @@ namespace StarWars.Services.Services.Episodes.Misc
 
         public async Task<List<EpisodeDTO>> GetAllEpisodesAsync()
         {
-            List<Episode>? allEpisodes = await _episodeRepository.GetAllAsync(x => x.CharactersInEpisode, x => x.CharactersInEpisode.Select(y => y.Character));
+            List<Episode>? allEpisodes = await _episodeRepository.GetAllAsync();
 
             return _mapper.Map<List<EpisodeDTO>>(allEpisodes);
         }

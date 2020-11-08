@@ -4,8 +4,8 @@ using System.Text;
 
 namespace StarWars.Services.Models
 {
-    public class EpisodeDTO
+    public class FriendDTO
     {
-        public string Name { get; set; } = default!;
+        public string Name { get; set; }
     }
 }

@@ -14,10 +14,12 @@ namespace StarWars.Services.Mapper
         public StarWarsServiceMapperProfile() : base(nameof(StarWarsServiceMapperProfile), x =>
         {
             x.CreateMap<Character, CharacterDTO>()
-                .ForMember(x => x.Episodes, x => x.MapFrom(y => y.Episodes.Select(y => y.Episode)));
+                .ForMember(x => x.Episodes, x => x.MapFrom(y => y.Episodes.Select(y => y.Episode)))
+                .ForMember(x => x.Friends, x => x.MapFrom(y => y.Friends.Select(y => y.Friend)));
 
-            x.CreateMap<Episode, EpisodeDTO>()
-                .ForMember(x => x.Characters, x => x.MapFrom(y => y.CharactersInEpisode.Select(y => y.Character)));
+            x.CreateMap<Character, FriendDTO>();
+
+            x.CreateMap<Episode, EpisodeDTO>();
         })
         {
         }
