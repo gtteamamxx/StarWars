@@ -6,6 +6,8 @@ namespace StarWars.Services.Interfaces.Models
 {
     public interface IUpdateCharacterModel
     {
+        List<string> Episodes { get; }
+
         int Id { get; }
 
         string Name { get; }

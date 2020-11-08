@@ -54,7 +54,7 @@ namespace StarWars.Services.Validators.Characters
             {
                 Episode? episode = await _episodeRepository.GetByOrDefaultAsync(x => x.Name == episodeNameToAssign);
 
-                if (episode == null) throw new CharacterCannotBeCreatedWithNotExistedEpisodeException(episodeNameToAssign);
+                if (episode == null) throw new CannotCreateCharacterWithNotExistedEpisodeException(episodeNameToAssign);
             }
         }
     }

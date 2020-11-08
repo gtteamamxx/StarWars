@@ -29,13 +29,16 @@ namespace StarWars.Common.Concrete
 
         public async Task<T> FindAsync(int id, params Expression<Func<T, object>>[] navigationProperties)
         {
-            T element = _context.Set<T>().Local.FirstOrDefault(GetKeyExpression().ShouldEqual(id).Compile());
+            T element = default!;
+
+            if (navigationProperties.Length == 0)
+                element = _context.Set<T>().Local.FirstOrDefault(GetKeyExpression().ShouldEqual(id).Compile());
 
             if (element == null)
                 element = await PrepareQuery(
                     query: _context.Set<T>().Where(GetKeyExpression().ShouldEqual(id)),
                     navigationProperties
-                ).SingleOrDefaultAsync();
+                ).FirstOrDefaultAsync();
 
             return element ?? throw new Exception($"{typeof(T).Name} with id: {id} not found"); ;
         }
@@ -77,8 +80,6 @@ namespace StarWars.Common.Concrete
             {
                 if (navigationProperty.GetExpressionPath() is string expressionPath)
                     query = query.Include(expressionPath);
-                else
-                    query.Include(navigationProperty);
             }
 
             return query;

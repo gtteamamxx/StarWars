@@ -12,7 +12,8 @@ namespace StarWars.Common.Extensions
         {
             List<Expression>? arguments = (expression.Body as MethodCallExpression)
                    ?.Arguments
-                   ?.ToList();
+                   ?.ToList()
+                   ?? new List<Expression>() { (MemberExpression)expression.Body };
 
             if (arguments != null)
             {

@@ -31,7 +31,7 @@ namespace StarWars.Services.Validators.Characters
 
             if (episode == null) throw new EntityNotFoundException<Episode>(context.InstanceToValidate.Id);
 
-            episode = await _episodeRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name);
+            episode = await _episodeRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name && x.Id != context.InstanceToValidate.Id);
 
             if (episode != null) throw new CannoUpdateEpisodeEpisodeWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
 

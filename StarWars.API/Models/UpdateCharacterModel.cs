@@ -8,6 +8,8 @@ namespace StarWars.API.Models
 {
     public class UpdateCharacterModel : IUpdateCharacterModel
     {
+        public List<string> Episodes { get; set; } = new List<string>();
+
         public int Id { get; set; }
 
         public string Name { get; set; } = default!;
