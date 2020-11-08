@@ -27,7 +27,10 @@ namespace StarWars.Services.Services.Characters.Misc
 
         public async Task<CharacterDTO> GetCharacterByIdAsync(int id)
         {
-            Character character = await _characterRepository.FindAsync(id, x => x.Episodes, x => x.Episodes.Select(y => y.Episode));
+            Character character = await _characterRepository.FindAsync(id,
+                x => x.Episodes, x => x.Episodes.Select(y => y.Episode),
+                x => x.Friends, x => x.Friends.Select(y => y.Friend)
+            );
 
             return _mapper.Map<CharacterDTO>(character);
         }

@@ -7,9 +7,9 @@ namespace StarWars.Services.Models
 {
     public class CharacterDTO
     {
-        public List<EpisodeDTO> Episodes { get; set; } = new List<EpisodeDTO>();
+        public List<string> Episodes { get; set; } = new List<string>();
 
-        public List<FriendDTO> Friends { get; set; } = new List<FriendDTO>();
+        public List<string> Friends { get; set; } = new List<string>();
 
         public string Name { get; set; } = default!;
     }

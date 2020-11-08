@@ -27,7 +27,9 @@ namespace StarWars.Services.Services.Episodes.Misc
 
         public async Task<EpisodeDTO> GetEpisodeByIdAsync(int id)
         {
-            Episode episode = await _episodeRepository.FindAsync(id, x => x.CharactersInEpisode, x => x.CharactersInEpisode.Select(y => y.Character));
+            Episode episode = await _episodeRepository.FindAsync(id,
+                x => x.CharactersInEpisode, x => x.CharactersInEpisode.Select(y => y.Character)
+            );
 
             return _mapper.Map<EpisodeDTO>(episode);
         }
