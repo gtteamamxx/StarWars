@@ -41,6 +41,8 @@ namespace StarWars.Services.Services.Characters.Misc
             characterToUpdate.Name = updateModel.Name;
 
             await SetCharacterEpisodesAsync(characterToUpdate, updateModel.Episodes);
+
+            await SetCharacterFriendsAsync(characterToUpdate, updateModel.Friends);
         }
 
         private async Task SetCharacterEpisodesAsync(Character characterToUpdate, List<string> episodes)
@@ -62,6 +64,27 @@ namespace StarWars.Services.Services.Characters.Misc
             episodesToRemove.ForEach(x => characterToUpdate.Episodes.Remove(x));
 
             episodesToAdd.ForEach(x => characterToUpdate.Episodes.Add(x));
+        }
+
+        private async Task SetCharacterFriendsAsync(Character characterToUpdate, List<string> friends)
+        {
+            List<Character> friendsToAssign = await _characterRepository.GetAllByOrDefaultAsync(x => friends.Contains(x.Name));
+
+            HashSet<int> friendsToAssignIds = friendsToAssign.Select(x => x.Id).ToHashSet();
+
+            List<CharacterFriend>? friendsToRemove
+                = characterToUpdate.Friends.Where(x => !friendsToAssignIds.Contains(x.FriendCharacterId)).ToList();
+
+            List<CharacterFriend>? friendsToAdd = friendsToAssignIds.Where(x => !characterToUpdate.Episodes.Any(y => y.EpisodeId == x))
+                .Select(friendId => new CharacterFriend()
+                {
+                    CharacterId = characterToUpdate.Id,
+                    FriendCharacterId = friendId
+                }).ToList();
+
+            friendsToRemove.ForEach(x => characterToUpdate.Friends.Remove(x));
+
+            friendsToAdd.ForEach(x => characterToUpdate.Friends.Add(x));
         }
     }
 }

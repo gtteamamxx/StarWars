@@ -8,6 +8,8 @@ namespace StarWars.Services.Interfaces.Models
     {
         List<string> Episodes { get; }
 
+        List<string> Friends { get; }
+
         int Id { get; }
 
         string Name { get; }

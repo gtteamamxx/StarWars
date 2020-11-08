@@ -36,6 +36,8 @@ namespace StarWars.Services.Validators.Characters
 
             await ValidateEpisodesExistence(context);
 
+            await ValidateFriendsExistence(context);
+
             return await base.ValidateAsync(context, cancellation);
         }
 
@@ -55,6 +57,18 @@ namespace StarWars.Services.Validators.Characters
                 Episode? episode = await _episodeRepository.GetByOrDefaultAsync(x => x.Name == episodeNameToAssign);
 
                 if (episode == null) throw new CannotCreateCharacterWithNotExistedEpisodeException(episodeNameToAssign);
+            }
+        }
+
+        private async Task ValidateFriendsExistence(ValidationContext<ICreateCharacterModel> context)
+        {
+            List<string> friendNames = context.InstanceToValidate.Friends;
+
+            foreach (string friendNameToAssign in friendNames)
+            {
+                Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == friendNameToAssign);
+
+                if (character == null) throw new CannotCreateCharacterWithNotExistedCharacterException(friendNameToAssign);
             }
         }
     }

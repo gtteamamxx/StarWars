@@ -37,6 +37,8 @@ namespace StarWars.Services.Validators.Characters
 
             await ValidateAllEpisodesExist(context);
 
+            await ValidateAllFriendsExist(context);
+
             return await base.ValidateAsync(context, cancellation);
         }
 
@@ -52,6 +54,21 @@ namespace StarWars.Services.Validators.Characters
             }
         }
 
+        private async Task ValidateAllFriendsExist(ValidationContext<IUpdateCharacterModel> context)
+        {
+            List<string> friendsToAssign = context.InstanceToValidate.Friends;
+
+            foreach (string friendNameToAssign in friendsToAssign)
+            {
+                Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == friendNameToAssign);
+
+                if (character == null) throw new CannotUpdateCharacterWithNotExistedFriendException(friendNameToAssign);
+
+                else if (context.InstanceToValidate.Name == character.Name) throw new CharacterCannotBeFriendWithSelfException();
+
+            }
+        }
+
         private async Task ValidateCharacterExist(ValidationContext<IUpdateCharacterModel> context)
         {
             Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Id == context.InstanceToValidate.Id);
@@ -63,7 +80,7 @@ namespace StarWars.Services.Validators.Characters
         {
             Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name && x.Id != context.InstanceToValidate.Id);
 
-            if (character != null) throw new CannoUpdateCharacterCharacterWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
+            if (character != null) throw new CannotUpdateCharacterCharacterWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
         }
     }
 }

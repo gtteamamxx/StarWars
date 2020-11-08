@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StarWars.Services.Exceptions
 {
-    public class CannoUpdateCharacterCharacterWithSameNameAlreadyExistException : Exception
+    public class CannotUpdateCharacterCharacterWithSameNameAlreadyExistException : Exception
     {
-        public CannoUpdateCharacterCharacterWithSameNameAlreadyExistException(int id, string newName)
+        public CannotUpdateCharacterCharacterWithSameNameAlreadyExistException(int id, string newName)
             : base($"Cannot update character with id: {id} because character with same name: '{newName}' already exist")
         {
         }

@@ -33,7 +33,7 @@ namespace StarWars.Services.Validators.Characters
 
             episode = await _episodeRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name && x.Id != context.InstanceToValidate.Id);
 
-            if (episode != null) throw new CannoUpdateEpisodeEpisodeWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
+            if (episode != null) throw new CannotUpdateEpisodeEpisodeWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
 
             return await base.ValidateAsync(context, cancellation);
         }
