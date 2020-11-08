@@ -33,7 +33,7 @@ namespace StarWars.Services.Validators.Characters
 
             character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name);
 
-            if (character != null) throw new CannoUpdateCharacterCharacterWIthSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
+            if (character != null) throw new CannoUpdateCharacterCharacterWithSameNameAlreadyExistException(context.InstanceToValidate.Id, context.InstanceToValidate.Name);
 
             return await base.ValidateAsync(context, cancellation);
         }

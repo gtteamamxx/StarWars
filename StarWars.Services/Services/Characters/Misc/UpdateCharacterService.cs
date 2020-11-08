@@ -1,4 +1,5 @@
-﻿using StarWars.DataAccess.Interfaces;
+﻿using FluentValidation;
+using StarWars.DataAccess.Interfaces;
 using StarWars.DataAccess.Model;
 using StarWars.Services.Interfaces.Models;
 using StarWars.Services.Interfaces.Services.Characters;
@@ -27,7 +28,7 @@ namespace StarWars.Services.Services.Characters.Misc
         {
             if (updateModel == null) throw new ArgumentNullException(nameof(updateModel));
 
-            await _updateCharacterValidator.ValidateAsync(updateModel);
+            await _updateCharacterValidator.ValidateAndThrowAsync(updateModel);
 
             Character characterToUpdate = await _characterRepository.FindAsync(updateModel.Id);
 

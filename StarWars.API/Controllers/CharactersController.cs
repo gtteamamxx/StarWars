@@ -61,7 +61,7 @@ namespace StarWars.API.Controllers
             return Ok(characters);
         }
 
-        [HttpGet]
+        [HttpGet("{characterId}")]
         [ProducesResponseType(typeof(CharacterDTO), 200)]
         public async Task<IActionResult> GetById(int characterId)
         {

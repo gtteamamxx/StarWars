@@ -15,8 +15,4 @@
     <ProjectReference Include="..\StarWars.DataAccess\StarWars.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Episodes\" />
-  </ItemGroup>
-
 </Project>
