@@ -16,6 +16,8 @@ namespace StarWars.Common.Interfaces
 
         Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] navigationProperties);
 
+        Task<List<T>> GetAllByOrDefaultAsync(Expression<Func<T, bool>> conditio);
+
         Task<T> GetByOrDefaultAsync(Expression<Func<T, bool>> condition);
     }
 }

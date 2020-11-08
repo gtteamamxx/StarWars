@@ -49,6 +49,15 @@ namespace StarWars.Common.Concrete
             return query.ToListAsync();
         }
 
+        public Task<List<T>> GetAllByOrDefaultAsync(Expression<Func<T, bool>> condition)
+        {
+            List<T> elements = _context.Set<T>().Local.Where(condition.Compile()).ToList();
+
+            if (elements != null) return Task.FromResult<List<T>>(elements);
+
+            return _context.Set<T>().Where(condition).ToListAsync();
+        }
+
         public Task<T> GetByOrDefaultAsync(Expression<Func<T, bool>> condition)
         {
             T element = _context.Set<T>().Local.FirstOrDefault(condition.Compile());

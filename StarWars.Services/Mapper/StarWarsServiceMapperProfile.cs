@@ -15,7 +15,9 @@ namespace StarWars.Services.Mapper
         {
             x.CreateMap<Character, CharacterDTO>()
                 .ForMember(x => x.Episodes, x => x.MapFrom(y => y.Episodes.Select(y => y.Episode)));
-            x.CreateMap<Episode, EpisodeDTO>();
+
+            x.CreateMap<Episode, EpisodeDTO>()
+                .ForMember(x => x.Characters, x => x.MapFrom(y => y.CharactersInEpisode.Select(y => y.Character)));
         })
         {
         }

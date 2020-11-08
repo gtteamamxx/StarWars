@@ -6,6 +6,8 @@ namespace StarWars.Services.Interfaces.Models
 {
     public interface ICreateCharacterModel
     {
+        List<string> Episodes { get; }
+
         string Name { get; }
     }
 }

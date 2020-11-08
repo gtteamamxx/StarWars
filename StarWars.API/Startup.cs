@@ -58,7 +58,7 @@ namespace StarWars.API
             });
 
             services.AddControllers()
-                    .AddNewtonsoftJson();
+                    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {

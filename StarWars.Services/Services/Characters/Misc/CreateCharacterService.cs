@@ -35,7 +35,7 @@ namespace StarWars.Services.Services.Characters.Misc
 
             await _createCharacterValidator.ValidateAndThrowAsync(createModel);
 
-            Character characterToAdd = _createCharacterFactory.Create(createModel);
+            Character characterToAdd = await _createCharacterFactory.CreateAsync(createModel);
 
             IEntityCreateResult identity = _characterRepository.Add(characterToAdd);
 
