@@ -10,6 +10,7 @@ namespace StarWars.Services.Services.Character
     public class CharactersService : ICharactersService
     {
         private readonly ICreateCharacterService _createCharacterService;
+        private readonly IDeleteCharacterService _deleteCharacterService;
         private readonly IGetAllCharactersService _getAllCharactersService;
         private readonly IGetCharacterService _getCharacterService;
         private readonly IUpdateCharacterService _updateCharacterService;
@@ -18,15 +19,19 @@ namespace StarWars.Services.Services.Character
             IGetAllCharactersService getAllCharactersService,
             IGetCharacterService getCharacterService,
             ICreateCharacterService createCharacterService,
-            IUpdateCharacterService updateCharacterService)
+            IUpdateCharacterService updateCharacterService,
+            IDeleteCharacterService deleteCharacterService)
         {
             _getAllCharactersService = getAllCharactersService;
             _getCharacterService = getCharacterService;
             _createCharacterService = createCharacterService;
             _updateCharacterService = updateCharacterService;
+            _deleteCharacterService = deleteCharacterService;
         }
 
         public Task<IEntityCreateResult> CreateCharacterAsync(ICreateCharacterModel createModel) => _createCharacterService.CreateCharacterAsync(createModel);
+
+        public Task DeleteAsync(int id) => _deleteCharacterService.DeleteAsync(id);
 
         public Task<List<CharacterDTO>> GetAllCharactersAsync() => _getAllCharactersService.GetAllCharactersAsync();
 

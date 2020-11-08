@@ -12,6 +12,8 @@ namespace StarWars.Services.Interfaces.Services.Character
     {
         Task<IEntityCreateResult> CreateCharacterAsync(ICreateCharacterModel createModel);
 
+        Task DeleteAsync(int id);
+
         Task<List<CharacterDTO>> GetAllCharactersAsync();
 
         Task<CharacterDTO> GetCharacterByIdAsync(int characterId);

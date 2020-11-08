@@ -41,6 +41,17 @@ namespace StarWars.API.Controllers
             return Created(uri, id);
         }
 
+        [HttpDelete]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> DeleteCharacter(int id)
+        {
+            await _charactersService.DeleteAsync(id);
+
+            await _databaseContext.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<CharacterDTO>), 200)]
         public async Task<IActionResult> GetAllCharacters()
@@ -60,14 +71,14 @@ namespace StarWars.API.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> UpdateCharacter([FromBody] UpdateCharacterModel updateModel)
         {
             await _charactersService.UpdateCharacterAsync(updateModel);
 
             await _databaseContext.SaveChangesAsync();
 
-            return Ok();
+            return NoContent();
         }
     }
 }
