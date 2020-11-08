@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StarWars.Common.Extensions;
 using StarWars.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,14 +18,20 @@ namespace StarWars.Common.Concrete
 
         public RepositoryBase(IDatabaseContext context) => _context = context;
 
+        public IEntityCreateResult Add(T entity)
+        {
+            _context.Set<T>().Add(entity);
+
+            return new EntityCreateResult<T>(entity, GetKeyExpression().Compile());
+        }
+
         public async Task<T> FindAsync(int id, params Expression<Func<T, object>>[] navigationProperties)
         {
             T element = await PrepareQuery(
-                query: _context.Set<T>().Where(GetFilterExpression(id)),
+                query: _context.Set<T>().Where(GetKeyExpression().ShouldEqual(id)),
                 navigationProperties
-            ).FirstOrDefaultAsync()
-
-                ?? throw new Exception($"{typeof(T).Name} with id: ${id} not found");
+            ).SingleOrDefaultAsync()
+                ?? throw new Exception($"{typeof(T).Name} with id: {id} not found");
 
             return element;
         }
@@ -39,7 +45,9 @@ namespace StarWars.Common.Concrete
             return query.ToListAsync();
         }
 
-        public abstract Expression<Func<T, bool>> GetFilterExpression(int id);
+        public Task<T> GetByOrDefaultAsync(Expression<Func<T, bool>> condition) => _context.Set<T>().FirstOrDefaultAsync(condition);
+
+        public abstract Expression<Func<T, int>> GetKeyExpression();
 
         private static IQueryable<T> PrepareQuery(IQueryable<T> query, Expression<Func<T, object>>[] navigationProperties)
         {
@@ -47,24 +55,10 @@ namespace StarWars.Common.Concrete
 
             foreach (Expression<Func<T, object>> navigationProperty in navigationProperties)
             {
-                List<Expression> arguments = (navigationProperty.Body as MethodCallExpression)
-                    ?.Arguments
-                    ?.ToList();
-
-                if (arguments != null)
-                {
-                    string path = string.Join(".", arguments.Select(x =>
-                    {
-                        if (x is MemberExpression memberExpression)
-                            return memberExpression.Member.Name;
-                        else if (x is LambdaExpression lambdaExpression)
-                            return (lambdaExpression.Body as MemberExpression).Member.Name;
-                        return string.Empty;
-                    }));
-
-                    query = query.Include(path);
-                }
-                else query = query.Include(navigationProperty);
+                if (navigationProperty.GetExpressionPath() is string expressionPath)
+                    query = query.Include(expressionPath);
+                else
+                    query.Include(navigationProperty);
             }
 
             return query;

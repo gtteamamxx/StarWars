@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StarWars.Services.Interfaces;
-using StarWars.Services.Interfaces.Services;
+using StarWars.API.Models;
+using StarWars.Common.Interfaces;
+using StarWars.Services.Interfaces.Models;
+using StarWars.Services.Interfaces.Services.Character;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -14,16 +16,29 @@ namespace StarWars.API.Controllers
     public class CharactersController : ControllerBase
     {
         private readonly ICharactersService _charactersService;
+        private readonly IDatabaseContext _databaseContext;
 
-        public CharactersController(ICharactersService charactersService)
+        public CharactersController(
+            ICharactersService charactersService,
+            IDatabaseContext databaseContext)
         {
             _charactersService = charactersService;
+            _databaseContext = databaseContext;
         }
 
         [HttpPost]
-        public IActionResult AddNewCharacter([FromBody] object model)
+        [ProducesResponseType(201)]
+        public async Task<IActionResult> AddNewCharacter([FromBody] CreateCharacterModel createModel)
         {
-            return Ok();
+            IEntityCreateResult identity = await _charactersService.CreateCharacterAsync(createModel);
+
+            await _databaseContext.SaveChangesAsync();
+
+            int id = identity.GetId();
+
+            string uri = $"characters/{id}";
+
+            return Created(uri, id);
         }
 
         [HttpGet("all")]
@@ -36,9 +51,12 @@ namespace StarWars.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById(int characterId)
+        [ProducesResponseType(typeof(List<CharacterDTO>), 200)]
+        public async Task<IActionResult> GetById(int characterId)
         {
-            return Ok();
+            CharacterDTO character = await _charactersService.GetCharacterByIdAsync(characterId);
+
+            return Ok(character);
         }
 
         [HttpPut]

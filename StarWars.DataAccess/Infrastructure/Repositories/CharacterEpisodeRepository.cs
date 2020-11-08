@@ -18,6 +18,6 @@ namespace StarWars.DataAccess.Infrastructure.Repositories
         {
         }
 
-        public override Expression<Func<CharacterEpisode, bool>> GetFilterExpression(int id) => x => x.Id == id;
+        public override Expression<Func<CharacterEpisode, int>> GetKeyExpression() => x => x.Id;
     }
 }
