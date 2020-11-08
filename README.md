@@ -16,6 +16,15 @@ Validation takes place before object manipulation so we can only operate on vali
 
 All request are transation-scoped. Transaction is moved to highest layer. You can see `IDatabaseContext` injected into controller and used just after service execution. 
 
+# Getting started
+
+To run application simple type:
+
+`dotnet run --project "StarWars.API"`
+
+to run tests:
+
+`dotnet test`
 
 # Specification
 
