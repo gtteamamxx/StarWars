@@ -27,7 +27,7 @@ namespace StarWars.API.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<EpisodeDTO>), 200)]
-        public async Task<IActionResult> GetAllCharacters()
+        public async Task<IActionResult> GetAllEpisodes()
         {
             throw new NotImplementedException();
         }

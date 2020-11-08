@@ -1,13 +1,14 @@
 ﻿using StarWars.DataAccess.Interfaces;
+using StarWars.DataAccess.Model;
 using StarWars.Services.Interfaces.Models;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Interfaces.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Services.Character.Misc
+namespace StarWars.Services.Services.Characters.Misc
 {
     public class UpdateCharacterService : IUpdateCharacterService
     {
@@ -28,7 +29,7 @@ namespace StarWars.Services.Services.Character.Misc
 
             await _updateCharacterValidator.ValidateAsync(updateModel);
 
-            DataAccess.Model.Character? characterToUpdate = await _characterRepository.FindAsync(updateModel.Id);
+            Character characterToUpdate = await _characterRepository.FindAsync(updateModel.Id);
 
             characterToUpdate.Name = updateModel.Name;
         }

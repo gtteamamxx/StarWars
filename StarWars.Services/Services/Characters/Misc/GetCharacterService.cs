@@ -2,7 +2,7 @@
 using StarWars.DataAccess.Interfaces;
 using StarWars.DataAccess.Model;
 using StarWars.Services.Interfaces.Models;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Services.Character.Misc
+namespace StarWars.Services.Services.Characters.Misc
 {
-    public class GetAllCharactersService : IGetAllCharactersService
+    public class GetCharacterService : IGetCharacterService
     {
         private readonly ICharacterRepository _characterRepository;
         private readonly IMapper _mapper;
 
-        public GetAllCharactersService(
+        public GetCharacterService(
             ICharacterRepository characterRepository,
             IMapper mapper)
         {
@@ -25,11 +25,11 @@ namespace StarWars.Services.Services.Character.Misc
             _mapper = mapper;
         }
 
-        public async Task<List<CharacterDTO>> GetAllCharactersAsync()
+        public async Task<CharacterDTO> GetCharacterByIdAsync(int id)
         {
-            var allCharacters = await _characterRepository.GetAllAsync(x => x.Episodes, x => x.Episodes.Select(y => y.Episode));
+            Character character = await _characterRepository.FindAsync(id, x => x.Episodes, x => x.Episodes.Select(y => y.Episode));
 
-            return _mapper.Map<List<CharacterDTO>>(allCharacters);
+            return _mapper.Map<CharacterDTO>(character);
         }
     }
 }

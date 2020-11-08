@@ -2,7 +2,7 @@
 using StarWars.API.Models;
 using StarWars.Common.Interfaces;
 using StarWars.Services.Interfaces.Models;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;

@@ -1,16 +1,17 @@
 ﻿using FluentValidation;
 using StarWars.Common.Interfaces;
 using StarWars.DataAccess.Interfaces;
-using StarWars.Services.Interfaces.Factories.Character;
+using StarWars.DataAccess.Model;
+using StarWars.Services.Interfaces.Factories.Characters;
 using StarWars.Services.Interfaces.Models;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Interfaces.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Services.Character.Misc
+namespace StarWars.Services.Services.Characters.Misc
 {
     public class CreateCharacterService : ICreateCharacterService
     {
@@ -34,7 +35,7 @@ namespace StarWars.Services.Services.Character.Misc
 
             await _createCharacterValidator.ValidateAndThrowAsync(createModel);
 
-            DataAccess.Model.Character characterToAdd = _createCharacterFactory.Create(createModel);
+            Character characterToAdd = _createCharacterFactory.Create(createModel);
 
             IEntityCreateResult identity = _characterRepository.Add(characterToAdd);
 

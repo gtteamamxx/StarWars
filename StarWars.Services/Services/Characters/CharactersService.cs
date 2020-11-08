@@ -1,11 +1,11 @@
 ﻿using StarWars.Common.Interfaces;
 using StarWars.Services.Interfaces.Models;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Services.Character
+namespace StarWars.Services.Services.Characters
 {
     public class CharactersService : ICharactersService
     {

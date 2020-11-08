@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Validators.Character
+namespace StarWars.Services.Validators.Characters
 {
     public class CreateCharacterValidator : AbstractValidator<ICreateCharacterModel>, ICreateCharacterValidator
     {
@@ -33,10 +33,9 @@ namespace StarWars.Services.Validators.Character
 
         private async Task ValidateCharacterAlreadyExists(ValidationContext<ICreateCharacterModel> context)
         {
-            DataAccess.Model.Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name);
+            Character character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name);
 
-            if (character != null)
-                throw new EntityAlreadyExistException(context.InstanceToValidate.Name);
+            if (character != null) throw new EntityAlreadyExistException(context.InstanceToValidate.Name);
         }
     }
 }

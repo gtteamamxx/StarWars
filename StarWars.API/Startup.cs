@@ -14,7 +14,7 @@ using Scrutor;
 using StarWars.Common.Interfaces;
 using StarWars.DataAccess.Infrastructure;
 using StarWars.DataAccess.Interfaces;
-using StarWars.Services.Interfaces.Services.Character;
+using StarWars.Services.Interfaces.Services.Characters;
 using StarWars.Services.Mapper;
 
 namespace StarWars.API

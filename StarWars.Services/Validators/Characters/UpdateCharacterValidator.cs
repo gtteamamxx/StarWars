@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using StarWars.DataAccess.Interfaces;
+using StarWars.DataAccess.Model;
 using StarWars.Services.Exceptions;
 using StarWars.Services.Interfaces.Models;
 using StarWars.Services.Interfaces.Validators;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StarWars.Services.Validators.Character
+namespace StarWars.Services.Validators.Characters
 {
     public class UpdateCharacterValidator : AbstractValidator<IUpdateCharacterModel>, IUpdateCharacterValidator
     {
@@ -26,9 +27,9 @@ namespace StarWars.Services.Validators.Character
 
         public override async Task<ValidationResult> ValidateAsync(ValidationContext<IUpdateCharacterModel> context, CancellationToken cancellation = default)
         {
-            DataAccess.Model.Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Id == context.InstanceToValidate.Id);
+            Character? character = await _characterRepository.GetByOrDefaultAsync(x => x.Id == context.InstanceToValidate.Id);
 
-            if (character == null) throw new EntityNotFoundException<DataAccess.Model.Character>(context.InstanceToValidate.Id);
+            if (character == null) throw new EntityNotFoundException<Character>(context.InstanceToValidate.Id);
 
             character = await _characterRepository.GetByOrDefaultAsync(x => x.Name == context.InstanceToValidate.Name);
 
