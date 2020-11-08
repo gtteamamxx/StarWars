@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using StarWars.Common.Interfaces;
 using StarWars.DataAccess.Interfaces;
 using StarWars.DataAccess.Model;
 using StarWars.Services.Interfaces.Services.Episodes;
@@ -24,9 +25,13 @@ namespace StarWars.Services.Services.Episodes.Misc
             _mapper = mapper;
         }
 
-        public async Task<List<EpisodeDTO>> GetAllEpisodesAsync()
+        public async Task<List<EpisodeDTO>> GetAllEpisodesAsync(IPagination pagination)
         {
-            List<Episode>? allEpisodes = await _episodeRepository.GetAllAsync(x => x.CharactersInEpisode, x => x.CharactersInEpisode.Select(y => y.Character));
+            List<Episode>? allEpisodes = await _episodeRepository.GetAllAsPageAsync(
+                pagination.ElementIndex,
+                pagination.PageSize,
+                x => x.CharactersInEpisode, x => x.CharactersInEpisode.Select(y => y.Character)
+            );
 
             return _mapper.Map<List<EpisodeDTO>>(allEpisodes);
         }

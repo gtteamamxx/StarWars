@@ -14,7 +14,7 @@ namespace StarWars.Services.Interfaces.Services.Characters
 
         Task DeleteAsync(int id);
 
-        Task<List<CharacterDTO>> GetAllCharactersAsync();
+        Task<List<CharacterDTO>> GetAllCharactersAsync(IPagination pagination);
 
         Task<CharacterDTO> GetCharacterByIdAsync(int characterId);
 

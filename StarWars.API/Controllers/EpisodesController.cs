@@ -53,9 +53,11 @@ namespace StarWars.API.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<EpisodeDTO>), 200)]
-        public async Task<IActionResult> GetAllEpisodes()
+        public async Task<IActionResult> GetAllEpisodes(int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            List<EpisodeDTO> episodes = await _episodesService.GetAllEpisodesAsync();
+            List<EpisodeDTO> episodes = await _episodesService.GetAllEpisodesAsync(
+                new PaginationModel(pageIndex, pageSize)
+            );
 
             return Ok(episodes);
         }

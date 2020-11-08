@@ -54,9 +54,11 @@ namespace StarWars.API.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<CharacterDTO>), 200)]
-        public async Task<IActionResult> GetAllCharacters()
+        public async Task<IActionResult> GetAllCharacters(int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            List<CharacterDTO> characters = await _charactersService.GetAllCharactersAsync();
+            List<CharacterDTO> characters = await _charactersService.GetAllCharactersAsync(
+                new PaginationModel(pageIndex, pageSize)
+            );
 
             return Ok(characters);
         }

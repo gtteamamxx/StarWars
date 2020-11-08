@@ -43,13 +43,13 @@ namespace StarWars.Common.Concrete
             return element ?? throw new Exception($"{typeof(T).Name} with id: {id} not found"); ;
         }
 
-        public Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] navigationProperties)
+        public Task<List<T>> GetAllAsPageAsync(int pageIndex, int pageSize, params Expression<Func<T, object>>[] navigationProperties)
         {
             IQueryable<T> query = _context.Set<T>().AsQueryable();
 
             query = PrepareQuery(query, navigationProperties);
 
-            return query.ToListAsync();
+            return query.Skip(pageIndex).Take(pageSize).ToListAsync();
         }
 
         public Task<List<T>> GetAllByOrDefaultAsync(Expression<Func<T, bool>> condition)

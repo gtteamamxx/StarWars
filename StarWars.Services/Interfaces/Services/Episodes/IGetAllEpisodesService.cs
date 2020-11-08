@@ -1,4 +1,5 @@
-﻿using StarWars.Services.Interfaces.Models;
+﻿using StarWars.Common.Interfaces;
+using StarWars.Services.Interfaces.Models;
 using StarWars.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,6 @@ namespace StarWars.Services.Interfaces.Services.Episodes
 {
     public interface IGetAllEpisodesService
     {
-        Task<List<EpisodeDTO>> GetAllEpisodesAsync();
+        Task<List<EpisodeDTO>> GetAllEpisodesAsync(IPagination pagination);
     }
 }

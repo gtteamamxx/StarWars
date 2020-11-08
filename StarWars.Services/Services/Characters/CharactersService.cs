@@ -33,7 +33,7 @@ namespace StarWars.Services.Services.Characters
 
         public Task DeleteAsync(int id) => _deleteCharacterService.DeleteAsync(id);
 
-        public Task<List<CharacterDTO>> GetAllCharactersAsync() => _getAllCharactersService.GetAllCharactersAsync();
+        public Task<List<CharacterDTO>> GetAllCharactersAsync(IPagination pagination) => _getAllCharactersService.GetAllCharactersAsync(pagination);
 
         public Task<CharacterDTO> GetCharacterByIdAsync(int characterId) => _getCharacterService.GetCharacterByIdAsync(characterId);
 

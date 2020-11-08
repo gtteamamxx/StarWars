@@ -33,7 +33,7 @@ namespace StarWars.Services.Services.Episodes
 
         public Task DeleteAsync(int id) => _deleteEpisodeService.DeleteAsync(id);
 
-        public Task<List<EpisodeDTO>> GetAllEpisodesAsync() => _getAllEpisodesService.GetAllEpisodesAsync();
+        public Task<List<EpisodeDTO>> GetAllEpisodesAsync(IPagination pagination) => _getAllEpisodesService.GetAllEpisodesAsync(pagination);
 
         public Task<EpisodeDTO> GetEpisodeByIdAsync(int characterId) => _getEpisodeService.GetEpisodeByIdAsync(characterId);
 

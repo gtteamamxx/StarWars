@@ -14,7 +14,7 @@ namespace StarWars.Services.Interfaces.Services.Episodes
 
         Task DeleteAsync(int id);
 
-        Task<List<EpisodeDTO>> GetAllEpisodesAsync();
+        Task<List<EpisodeDTO>> GetAllEpisodesAsync(IPagination pagination);
 
         Task<EpisodeDTO> GetEpisodeByIdAsync(int characterId);
 
