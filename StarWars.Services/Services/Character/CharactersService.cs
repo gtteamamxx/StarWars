@@ -12,15 +12,18 @@ namespace StarWars.Services.Services.Character
         private readonly ICreateCharacterService _createCharacterService;
         private readonly IGetAllCharactersService _getAllCharactersService;
         private readonly IGetCharacterService _getCharacterService;
+        private readonly IUpdateCharacterService _updateCharacterService;
 
         public CharactersService(
             IGetAllCharactersService getAllCharactersService,
             IGetCharacterService getCharacterService,
-            ICreateCharacterService createCharacterService)
+            ICreateCharacterService createCharacterService,
+            IUpdateCharacterService updateCharacterService)
         {
             _getAllCharactersService = getAllCharactersService;
             _getCharacterService = getCharacterService;
             _createCharacterService = createCharacterService;
+            _updateCharacterService = updateCharacterService;
         }
 
         public Task<IEntityCreateResult> CreateCharacterAsync(ICreateCharacterModel createModel) => _createCharacterService.CreateCharacterAsync(createModel);
@@ -28,5 +31,7 @@ namespace StarWars.Services.Services.Character
         public Task<List<CharacterDTO>> GetAllCharactersAsync() => _getAllCharactersService.GetAllCharactersAsync();
 
         public Task<CharacterDTO> GetCharacterByIdAsync(int characterId) => _getCharacterService.GetCharacterByIdAsync(characterId);
+
+        public Task UpdateCharacterAsync(IUpdateCharacterModel updateModel) => _updateCharacterService.UpdateCharacterAsync(updateModel);
     }
 }

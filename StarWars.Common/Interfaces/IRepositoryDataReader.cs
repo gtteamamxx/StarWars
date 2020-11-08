@@ -10,6 +10,8 @@ namespace StarWars.Common.Interfaces
     {
         IEntityCreateResult Add(T entity);
 
+        void Delete(T entity);
+
         Task<T> FindAsync(int id, params Expression<Func<T, object>>[] navigationProperties);
 
         Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] navigationProperties);

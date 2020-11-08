@@ -25,15 +25,19 @@ namespace StarWars.Common.Concrete
             return new EntityCreateResult<T>(entity, GetKeyExpression().Compile());
         }
 
+        public void Delete(T entity) => _context.Set<T>().Remove(entity);
+
         public async Task<T> FindAsync(int id, params Expression<Func<T, object>>[] navigationProperties)
         {
-            T element = await PrepareQuery(
-                query: _context.Set<T>().Where(GetKeyExpression().ShouldEqual(id)),
-                navigationProperties
-            ).SingleOrDefaultAsync()
-                ?? throw new Exception($"{typeof(T).Name} with id: {id} not found");
+            T element = _context.Set<T>().Local.FirstOrDefault(GetKeyExpression().ShouldEqual(id).Compile());
 
-            return element;
+            if (element == null)
+                element = await PrepareQuery(
+                    query: _context.Set<T>().Where(GetKeyExpression().ShouldEqual(id)),
+                    navigationProperties
+                ).SingleOrDefaultAsync();
+
+            return element ?? throw new Exception($"{typeof(T).Name} with id: {id} not found"); ;
         }
 
         public Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] navigationProperties)
@@ -45,11 +49,18 @@ namespace StarWars.Common.Concrete
             return query.ToListAsync();
         }
 
-        public Task<T> GetByOrDefaultAsync(Expression<Func<T, bool>> condition) => _context.Set<T>().FirstOrDefaultAsync(condition);
+        public Task<T> GetByOrDefaultAsync(Expression<Func<T, bool>> condition)
+        {
+            T element = _context.Set<T>().Local.FirstOrDefault(condition.Compile());
+
+            if (element != null) return Task.FromResult<T>(element);
+
+            return _context.Set<T>().FirstOrDefaultAsync(condition);
+        }
 
         public abstract Expression<Func<T, int>> GetKeyExpression();
 
-        private static IQueryable<T> PrepareQuery(IQueryable<T> query, Expression<Func<T, object>>[] navigationProperties)
+        private IQueryable<T> PrepareQuery(IQueryable<T> query, Expression<Func<T, object>>[] navigationProperties)
         {
             if (navigationProperties.Length == 0) return query;
 

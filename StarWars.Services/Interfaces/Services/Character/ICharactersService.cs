@@ -15,5 +15,7 @@ namespace StarWars.Services.Interfaces.Services.Character
         Task<List<CharacterDTO>> GetAllCharactersAsync();
 
         Task<CharacterDTO> GetCharacterByIdAsync(int characterId);
+
+        Task UpdateCharacterAsync(IUpdateCharacterModel updateModel);
     }
 }

@@ -60,8 +60,13 @@ namespace StarWars.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateCharacter([FromBody] object updateModel)
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> UpdateCharacter([FromBody] UpdateCharacterModel updateModel)
         {
+            await _charactersService.UpdateCharacterAsync(updateModel);
+
+            await _databaseContext.SaveChangesAsync();
+
             return Ok();
         }
     }
